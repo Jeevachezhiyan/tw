@@ -19,11 +19,11 @@ class Game{
         for ($currentRound=0; $currentRound < $rounds; $currentRound++) {
 
             $p1Choice = $this->p1->getInput($currentRound, $this->p2ChoiceHistory);
+
             $p2Choice = $this->p2->getInput($currentRound, $this->p1ChoiceHistory);
 
             array_push($this->p1ChoiceHistory, $p1Choice);
             array_push($this->p2ChoiceHistory, $p2Choice);
-
             $this->calculateScore();
         }
     }
@@ -61,12 +61,13 @@ class Game{
             echo "Player 2 " . $this->p2ChoiceHistory[$i] . " Score : " . $p2ScoreTmp . "\n";
             echo "\n";
         }
-
         $this->announceWinner($p1ScoreTmp, $p2ScoreTmp);
 
     }
 
     private function announceWinner($p1Score, $p2Score){
+
+        return array($p1Score, $p2Score);
         if($p1Score === $p2Score){
             echo 'Match is draw';
         } else if($p1Score > $p2Score){

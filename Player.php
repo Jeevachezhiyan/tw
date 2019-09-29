@@ -7,19 +7,42 @@ class Player{
         $this->type = $type;
     }
 
-    public function getInput($round, $otherChoiceHistory){
+    public function getInput($round, $otherChoiceHistory){        
         switch($this->type){
-            case 'COOPERATIVE':
+            case 'KINDBOT':
                 return $this->coOperateInput();
             case 'EVILBOT':
                 return $this->evilBotInput();
-            case 'COPYCAT':
+            case 'COPYBOT':
                 return $this->copyCatInput($round, $otherChoiceHistory);
+            case 'GRUDGE':
+                return $this->grudgeInput($round, $otherChoiceHistory);
             default:
                 return $this->normalPlayerInput();
         }
     }
 
+    private function getTournment()
+    {
+        $game = new Game();
+        $game->printScore();
+    }
+
+    private function grudgeInput($currentRound,$otherChoiceHistory) {
+
+        if($currentRound === 0)
+        {
+            return CHOICE[0];
+        }
+        else{
+                if(in_array(CHOICE[1], $otherChoiceHistory)) {
+                    return $this->evilBotInput();
+                }
+                else{
+                    return $this->coOperateInput();
+                }
+        }
+    }
 
     private function coOperateInput(){
         return CHOICE[0];
@@ -33,7 +56,7 @@ class Player{
         if($currentRound === 0){
             return CHOICE[0];
         } else {
-            return $otherChoiceHistory[count($otherChoiceHistory) - 1];
+                return $otherChoiceHistory[count($otherChoiceHistory) - 1];
         }
     }
 
